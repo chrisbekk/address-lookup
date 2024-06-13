@@ -7,7 +7,7 @@ const DEFAULT_MAP_OPTIONS = {
 };
 export default function MapComponent() {
   return (
-    <div className="h-screen">
+    <div className="h-screen z-0">
       <APIProvider apiKey={import.meta.env.VITE_API_KEY}>
         <Map
           mapId={import.meta.env.VITE_MAP_ID}
