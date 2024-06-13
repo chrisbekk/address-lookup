@@ -29,7 +29,8 @@ function MapController({ position }) {
 
   useEffect(() => {
     if (!map) return;
-    if (!position) return;
+    if (!position.lat && !position.lng) return;
+    console.log(position);
     console.log(map);
     map.setCenter(position);
     map.setZoom(12);
