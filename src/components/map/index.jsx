@@ -1,11 +1,11 @@
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
-
+import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
+import { useEffect, useRef } from 'react';
 const DEFAULT_MAP_OPTIONS = {
   lat: 60.395116,
   lng: 10.344659,
   zoom: 8,
 };
-export default function MapComponent() {
+export default function MapComponent({ position }) {
   return (
     <div className="h-screen z-0">
       <APIProvider apiKey={import.meta.env.VITE_API_KEY}>
@@ -16,8 +16,23 @@ export default function MapComponent() {
             lng: DEFAULT_MAP_OPTIONS.lng,
           }}
           defaultZoom={DEFAULT_MAP_OPTIONS.zoom}
-        ></Map>
+        >
+          <MapController position={position} />
+        </Map>
       </APIProvider>
     </div>
   );
+}
+
+function MapController({ position }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+    if (!position) return;
+    console.log(map);
+    map.setCenter(position);
+    map.setZoom(12);
+  }, [position, map]);
+  return null;
 }

@@ -46,7 +46,7 @@ function App() {
         />
       )}
       {!toggleLanding && <Search setPosition={setPosition} pending={pending} />}
-      <MapComponent />
+      <MapComponent position={position} />
     </div>
   );
 }
