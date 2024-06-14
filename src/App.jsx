@@ -6,14 +6,17 @@ import ErrorMessage from './components/Search/ErrorMessage';
 function App() {
   const [toggleLanding, setToggleLanding] = useState(true);
   const [position, setPosition] = useState({ lat: null, lng: null });
+  const [data, setData] = useState(null);
   const [pending, setPending] = useState(false);
   const [responseError, setResponseError] = useState(null);
   useEffect(() => {
+    console.log('Fetch Effect Firing');
     const { lat, lng } = position;
     if (!lat || !lng) return;
     const fetchAddress = async () => {
       setPending(true);
       setResponseError(null);
+      setData(null);
       console.log('firing');
       try {
         const response = await fetch(
@@ -27,6 +30,7 @@ function App() {
         }
         const responseData = await response.json();
         console.log(responseData);
+        setData(responseData);
       } catch (error) {
         console.log(error.errorData);
         setResponseError(error.errorData);
@@ -35,7 +39,7 @@ function App() {
       }
     };
     fetchAddress();
-  }, [position]);
+  }, []);
   return (
     <div className="bg-neutral-800 h-screen text-neutral-100 relative">
       {toggleLanding && <Landing setToggleLanding={setToggleLanding} />}
@@ -46,7 +50,7 @@ function App() {
         />
       )}
       {!toggleLanding && <Search setPosition={setPosition} pending={pending} />}
-      <MapComponent position={position} />
+      <MapComponent position={position} data={data} pending={pending} />
     </div>
   );
 }
