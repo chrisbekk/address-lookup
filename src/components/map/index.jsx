@@ -1,5 +1,6 @@
-import { APIProvider, Map, useMap, Marker } from '@vis.gl/react-google-maps';
-import { useEffect } from 'react';
+import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
+import { useEffect, useRef } from 'react';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 
 const DEFAULT_MAP_OPTIONS = {
   lat: 60.395116,
@@ -45,9 +46,23 @@ function MapController({ position, data }) {
 }
 
 function AddressMarkers({ data }) {
-  return data?.adresser.map((point, index) => {
-    const { lat, lon } = point.representasjonspunkt;
-    const position = { lat: lat, lng: lon };
-    return <Marker key={index} position={position} />;
-  });
+  const map = useMap();
+  const clusterRefs = useRef();
+  console.log(map);
+  useEffect(() => {
+    if (!map || !data?.adresser) return;
+    if (clusterRefs.current) {
+      clusterRefs.current.clearMarkers();
+    }
+    const markers = data.adresser.map(point => {
+      const { lat, lon } = point.representasjonspunkt;
+      return new google.maps.Marker({
+        position: { lat, lng: lon },
+      });
+    });
+
+    clusterRefs.current = new MarkerClusterer({ markers, map });
+  }, [map, data]);
+
+  return null;
 }
