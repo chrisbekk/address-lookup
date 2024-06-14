@@ -10,9 +10,7 @@ export default function ErrorMessage({ error, setResponseError }) {
           <h1 className="text-2xl font-semibold">Noe gikk galt</h1>
         </div>
         <div>
-          {error.message.lat?.map((e, index) => (
-            <p key={index}>{e}</p>
-          ))}
+          <p>{error.message}</p>
         </div>
         <button
           onClick={() => setResponseError(false)}

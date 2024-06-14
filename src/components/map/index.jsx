@@ -1,10 +1,12 @@
 import { APIProvider, Map, useMap, Marker } from '@vis.gl/react-google-maps';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+
 const DEFAULT_MAP_OPTIONS = {
   lat: 60.395116,
   lng: 10.344659,
   zoom: 8,
 };
+
 export default function MapComponent({ position, data, pending }) {
   return (
     <div className="h-screen z-0">
@@ -25,27 +27,24 @@ export default function MapComponent({ position, data, pending }) {
   );
 }
 
-function MapController({ position, data, pending }) {
+function MapController({ position, data }) {
   const map = useMap();
 
   useEffect(() => {
     console.log('Map Controller firing');
-    console.log(data);
 
     if (!map) return;
-    if (pending) return;
     if (!position.lat && !position.lng) return;
     if (!data || !data?.adresser || data?.adresser.length === 0) return;
-    console.log('map controller firing');
     console.log('Repositioning Camera');
     map.setCenter(position);
     map.setZoom(12);
   }, [position, map, data]);
+
   return null;
 }
 
 function AddressMarkers({ data }) {
-  console.log(data?.adresser);
   return data?.adresser.map((point, index) => {
     const { lat, lon } = point.representasjonspunkt;
     const position = { lat: lat, lng: lon };
