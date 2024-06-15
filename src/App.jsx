@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Landing from './components/Landing';
 import MapComponent from './components/map';
 import Search from './components/Search/Search';
+import Details from './Details';
 import ErrorMessage from './components/Search/ErrorMessage';
 import useFetchAddresses from './hooks/useFetchAddresses';
 
@@ -16,7 +17,7 @@ function App() {
     fetchAddresses(newPosition);
   };
   return (
-    <div className="bg-neutral-800 h-screen text-neutral-100 relative">
+    <div className="bg-neutral-800 h-screen text-neutral-100 relative overflow-hidden">
       {toggleLanding && <Landing setToggleLanding={setToggleLanding} />}
       {responseError && (
         <ErrorMessage
@@ -28,6 +29,7 @@ function App() {
         <Search setPosition={handleSetPosition} pending={pending} />
       )}
       <MapComponent position={position} data={data} pending={pending} />
+      {true && <Details data={data} />}
     </div>
   );
 }
