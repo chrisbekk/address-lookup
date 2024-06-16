@@ -9,10 +9,10 @@ export default function useFetchAddresses() {
     setData(null);
     const { lat, lng } = position;
     if (!lat || !lng) return;
-    console.log('Fetch Address firing');
+
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL_KARTVERKET_API}lat=${lat}&lon=${lng}&radius=1000`,
+        `${import.meta.env.VITE_BASE_URL_KARTVERKET_API}lat=${lat}&lon=${lng}&radius=1000&treffPerSide=100`,
       );
       if (!response.ok) {
         const error = new Error('Failed to fetch data');
@@ -23,13 +23,11 @@ export default function useFetchAddresses() {
 
       if (responseData?.adresser.length === 0) {
         const error = new Error();
-        error.message =
-          'Ingen treff. Sørg for at den oppgitte posisjonen er et sted i Norge.';
+        error.message = 'Ingen treff.';
         throw error;
       }
       setData(responseData);
     } catch (error) {
-      console.log(error);
       setResponseError(error);
     } finally {
       setPending(false);

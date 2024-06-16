@@ -29,7 +29,6 @@ function App() {
         <Search setPosition={handleSetPosition} pending={pending} />
       )}
       <MapComponent position={position} data={data} pending={pending} />
-      {true && <Details data={data} />}
     </div>
   );
 }

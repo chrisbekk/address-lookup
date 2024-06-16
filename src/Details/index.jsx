@@ -1,42 +1,39 @@
-import { motion, transform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import Address from './Address';
-export default function Details({ data }) {
+export default function Details({ data, map }) {
   const [toggle, setToggle] = useState(false);
   console.log(data);
   const variants = {
-    initial: { y: 100, transition: { type: 'ease' } },
-    show: { y: 0, transition: { type: 'ease' } },
-    exit: { y: 0 },
+    initial: { y: '384px' },
+    animate: { y: 0, transition: { type: 'ease' } },
   };
 
   return (
     <motion.div
       variants={variants}
       initial="initial"
-      animate={toggle ? 'show' : 'initial'}
-      className=" w-screen absolute bottom-0 overflow-hidden"
+      animate={toggle ? 'animate' : 'initial'}
+      className="absolute bottom-0 w-full"
     >
-      <div className="flex flex-col gap-1 items-center justify-center w-full h-full">
-        <button
-          onClick={() => setToggle(prev => !prev)}
-          className="bg-purple-400 p-5 rounded-xl"
-        >
-          Detaljer
-        </button>
-        <div className="bg-white text-black w-full h-full z-[999] p-3">
-          <h1 className="font-semibold text-2xl">Detaljer</h1>
-          <div className="grid grid-cols-3 w-full">
-            <h2>Adresse</h2>
-            <h2>Nummer</h2>
-            <h2>Adressekode</h2>
-            <h2></h2>
+      <button
+        onClick={() => setToggle(prev => !prev)}
+        className="bg-slate-300 text-neutral-950 p-6 rounded-tr-2xl font-semibold"
+      >
+        Detaljer
+      </button>
+      <div className="bg-slate-300 text-neutral-950 h-96 overflow-y-scroll">
+        <div className="p-2 border border-black w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 border">
+            <h1 className="font-semibold text-lg">Adresse</h1>
+            <h1 className="font-semibold text-lg hidden sm:block">
+              Bruksnummer
+            </h1>
+            <h1 className="font-semibold text-lg hidden sm:block">Poststed</h1>
           </div>
-          <div>
-            {data?.adresser.map((address, index) => (
-              <Address key={index} data={address} />
-            ))}
-          </div>
+          {data?.adresser.map((address, index) => (
+            <Address data={address} key={index} map={map} />
+          ))}
         </div>
       </div>
     </motion.div>
