@@ -6,7 +6,7 @@ export default function Address({ data }) {
     console.log(lat);
     const position = { lat: lat, lng: lng };
     map.panTo(position);
-    map.setZoom(17);
+    map.setZoom(20);
     map.setTilt(50);
     map.setHeading(0);
   };
